@@ -60,6 +60,7 @@ const App = () => {
       }
     }
   }
+
   const checkColumn4 = () => {
     // 39 = index of the column of 3 that get check
     // after index number 47 the column is 3 not 4 anymore
@@ -182,6 +183,7 @@ const App = () => {
   }
 
   // TODO: check row and column 3 and 4
+  // run 2 dependencies useEffect
 
   // move and replace the box
   const moveBoxBelow = () => {
@@ -214,7 +216,6 @@ const App = () => {
     }
   }
 
-  console.log(scoreDisplay)
 
   const dragStart = (e) => {
     // console.log('dragStart', e.target)
@@ -350,7 +351,6 @@ const App = () => {
             onDragEnter={(e) => e.preventDefault()}
             onDragLeave={(e) => e.preventDefault()}
           />
-
         ))}
       </div>
     </div>
