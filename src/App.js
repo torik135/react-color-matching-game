@@ -39,6 +39,7 @@ const App = () => {
       // replace it with blank box
       if (column3.every(box => currColorArr[box] === decidedColor)) {
         column3.forEach(box => { currColorArr[box] = '' })
+        return true
       }
     }
   }
@@ -62,6 +63,7 @@ const App = () => {
       // replace it with blank box
       if (column4.every(box => currColorArr[box] === decidedColor)) {
         column4.forEach(box => { currColorArr[box] = '' })
+        return true
       }
     }
   }
@@ -103,6 +105,7 @@ const App = () => {
       // replace it with blank box
       if (row4.every(box => currColorArr[box] === decidedColor)) {
         row4.forEach(box => { currColorArr[box] = '' })
+        return true
       }
     }
   }
@@ -144,6 +147,7 @@ const App = () => {
       // replace it with blank box
       if (row4.every(box => currColorArr[box] === decidedColor)) {
         row4.forEach(box => { currColorArr[box] = '' })
+        return true
       }
     }
   }
@@ -182,18 +186,17 @@ const App = () => {
   }
 
   const dragStart = (e) => {
-    console.log(e.target)
-    console.log('dragStart')
+    console.log('dragStart', e.target)
     // get the data of the box being dragged
     setBoxBeingDragged(e.target)
   }
   const dragDrop = (e) => {
-    console.log('dragDrop')
+    console.log('dragDrop', e.target)
     // get the data of the box being replaced
     setBoxBeingReplaced(e.target)
   }
-  const dragEnd = () => {
-    console.log('dragEnf')
+  const dragEnd = (e) => {
+    console.log('dragEnd', e.target)
 
 
     // get the data-id (int) of the box being replace on drag end
@@ -206,6 +209,43 @@ const App = () => {
     currColorArr[boxBeingReplacedId] = boxBeingDragged.style.backgroundColor
     // draggedBox with replaceBox
     currColorArr[boxBeingDraggedId] = boxBeingReplaced.style.backgroundColor
+
+    // valid box moves
+    // return number
+    const validMoves = [
+      // move left 1
+      boxBeingDraggedId - 1,
+      // move up 1
+      boxBeingDraggedId - width,
+      // move right 1
+      boxBeingDraggedId + 1,
+      // move down 1
+      boxBeingDraggedId + width,
+    ]
+
+    // check if the move is valid
+    // if the boxReplaceId(number) is inside validMoves the is valid move
+    const validMove = validMoves.includes(boxBeingReplacedId)
+
+    const isColumn4 = checkColumn4()
+    const isRow4 = checkRow4()
+    const isColumn3 = checkColumn3()
+    const isRow3 = checkRow3()
+
+    // if true then set box color is replace with the dragged
+    // else is not replace
+    if (boxBeingDraggedId &&
+      validMove &&
+      (isColumn4 || isRow4 || isColumn3 || isRow3)) {
+      setBoxBeingDragged(null)
+      setBoxBeingReplaced(null)
+      console.log('POINT')
+    } else {
+      currColorArr[boxBeingReplacedId] = boxBeingReplaced.style.backgroundColor
+      currColorArr[boxBeingDraggedId] = boxBeingDragged.style.backgroundColor
+      setCurrColorArr([...currColorArr])
+      console.log("NOT POINT")
+    }
   }
 
   // create an array 64 item (8*8)
@@ -224,7 +264,6 @@ const App = () => {
 
       randomColorArrangement.push(randomColor)
     }
-    console.log(randomColorArrangement)
 
     // set the current color arrangement with random color arrangement
     setCurrColorArr(randomColorArrangement)
