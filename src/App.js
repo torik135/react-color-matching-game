@@ -16,11 +16,14 @@ const App = () => {
   // setting the current color arrangement with set current color arrangement
   const [currColorArr, setCurrColorArr] = useState([])
 
+  const [boxBeingDragged, setBoxBeingDragged] = useState(null)
+  const [boxBeingReplaced, setBoxBeingReplaced] = useState()
+
   // checking of column 4 and 3
   const checkColumn3 = () => {
     // 47 = index of the column of 3 that get check
     // after index number 47 the column is 2 not 3 anymore
-    for (let i = 0; i < 47; i++) {
+    for (let i = 0; i <= 47; i++) {
       // i = 0
       // i + width(8) = 8
       // i + width(8) * 2 = 16
@@ -42,7 +45,7 @@ const App = () => {
   const checkColumn4 = () => {
     // 39 = index of the column of 3 that get check
     // after index number 47 the column is 3 not 4 anymore
-    for (let i = 0; i < 39; i++) {
+    for (let i = 0; i <= 39; i++) {
       // i = 0
       // i + width(8) = 8
       // i + width(8) * 2 = 16
@@ -145,10 +148,13 @@ const App = () => {
     }
   }
 
+  // TODO: check row and column 3 and 4
+
   // move and replace the box
   const moveBoxBelow = () => {
-    // looping all the box
-    for (let i = 0; i < 64; i++) {
+    // looping the box before 55
+    // after 55 will be the bottom box
+    for (let i = 0; i <= 55; i++) {
       // top box
       const topBox = [0, 1, 2, 3, 4, 5, 6, 7]
       // 
@@ -175,9 +181,32 @@ const App = () => {
     }
   }
 
-  const dragStart = () => { console.log('dragStart') }
-  const dragDrop = () => { console.log('dragDrop') }
-  const dragEnd = () => { console.log('dragEnf') }
+  const dragStart = (e) => {
+    console.log(e.target)
+    console.log('dragStart')
+    // get the data of the box being dragged
+    setBoxBeingDragged(e.target)
+  }
+  const dragDrop = (e) => {
+    console.log('dragDrop')
+    // get the data of the box being replaced
+    setBoxBeingReplaced(e.target)
+  }
+  const dragEnd = () => {
+    console.log('dragEnf')
+
+
+    // get the data-id (int) of the box being replace on drag end
+    const boxBeingReplacedId = parseInt(boxBeingReplaced.getAttribute('data-id'))
+    // get the data-id (int) of the box being dragged on drag end
+    const boxBeingDraggedId = parseInt(boxBeingDragged.getAttribute('data-id'))
+
+    // replace the box color
+    // replaceBox with draggedBox
+    currColorArr[boxBeingReplacedId] = boxBeingDragged.style.backgroundColor
+    // draggedBox with replaceBox
+    currColorArr[boxBeingDraggedId] = boxBeingReplaced.style.backgroundColor
+  }
 
   // create an array 64 item (8*8)
   const createBoard = () => {
@@ -239,7 +268,7 @@ const App = () => {
             key={index}
             data-id={index}
             style={{ backgroundColor: candyColor }}
-            alt={index}
+            alt={candyColor}
             draggable={true}
             onDragStart={dragStart}
             onDragOver={(e) => e.preventDefault()}
