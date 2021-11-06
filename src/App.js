@@ -1,3 +1,6 @@
+import {useState} from 'react'
+
+
 const width = 8
 const candyColors = [
 'blue',
@@ -10,6 +13,8 @@ const candyColors = [
 
 
 const App = () => {
+  // setting the current color arrangement with set current color arrangement
+  const [currColorArr, setCurrColorArr] = useState([])
 
   // make a board for colors
   const createBoard = () => {
@@ -27,7 +32,10 @@ const App = () => {
 
       randomColorArrangement.push(randomColor)
     }
-    console.log(randomColorArrangement)
+    // console.log(randomColorArrangement)
+
+    // set the current color arrangement with random color arrangement
+    setCurrColorArr(randomColorArrangement)
   }
 
   createBoard()
