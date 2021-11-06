@@ -328,32 +328,32 @@ const App = () => {
     currColorArr])
 
   return (
-    <div className="app">
-      <h2>Score:</h2><br />
+    <>
       <ScoreBoard score={scoreDisplay} />
-      <hr />
-      <div className="game">
-        {/* mapping the current color arrangement array to img tag
+      <div className="app">
+        <div className="game">
+          {/* mapping the current color arrangement array to img tag
       candyColor = value
       index = index of the value */}
-        {currColorArr.map((candyColor, index) => (
+          {currColorArr.map((candyColor, index) => (
 
-          <img
-            key={index}
-            src={candyColor}
-            data-id={index}
-            alt={candyColor}
-            draggable={true}
-            onDragStart={dragStart}
-            onDrop={dragDrop}
-            onDragEnd={dragEnd}
-            onDragOver={(e) => e.preventDefault()}
-            onDragEnter={(e) => e.preventDefault()}
-            onDragLeave={(e) => e.preventDefault()}
-          />
-        ))}
+            <img
+              key={index}
+              src={candyColor}
+              data-id={index}
+              alt={candyColor}
+              draggable={true}
+              onDragStart={dragStart}
+              onDrop={dragDrop}
+              onDragEnd={dragEnd}
+              onDragOver={(e) => e.preventDefault()}
+              onDragEnter={(e) => e.preventDefault()}
+              onDragLeave={(e) => e.preventDefault()}
+            />
+          ))}
+        </div>
       </div>
-    </div>
+    </>
   )
 }
 
