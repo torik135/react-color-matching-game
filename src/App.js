@@ -1,14 +1,22 @@
 import { useState, useEffect } from 'react'
 
+// images
+import Blue from './img/blue.png'
+import Green from './img/green.png'
+import Orange from './img/orange.png'
+import Purple from './img/purple.png'
+import Red from './img/red.png'
+import Yellow from './img/yellow.png'
+import Blank from './img/blank.png'
 
 const width = 8
 const candyColors = [
-  'blue',
-  'green',
-  'orange',
-  'purple',
-  'red',
-  'yellow',
+  Blue,
+  Green,
+  Orange,
+  Purple,
+  Red,
+  Yellow,
 ]
 
 
@@ -38,7 +46,7 @@ const App = () => {
       // if every box if match with decidedColor(first color) then
       // replace it with blank box
       if (column3.every(box => currColorArr[box] === decidedColor)) {
-        column3.forEach(box => { currColorArr[box] = '' })
+        column3.forEach(box => { currColorArr[box] = Blank })
         return true
       }
     }
@@ -62,7 +70,7 @@ const App = () => {
       // if every box if match with decidedColor(first color) then
       // replace it with blank box
       if (column4.every(box => currColorArr[box] === decidedColor)) {
-        column4.forEach(box => { currColorArr[box] = '' })
+        column4.forEach(box => { currColorArr[box] = Blank })
         return true
       }
     }
@@ -104,7 +112,7 @@ const App = () => {
       // if every box if match with decidedColor(first color) then
       // replace it with blank box
       if (row4.every(box => currColorArr[box] === decidedColor)) {
-        row4.forEach(box => { currColorArr[box] = '' })
+        row4.forEach(box => { currColorArr[box] = Blank })
         return true
       }
     }
@@ -146,7 +154,7 @@ const App = () => {
       // if every box if match with decidedColor(first color) then
       // replace it with blank box
       if (row4.every(box => currColorArr[box] === decidedColor)) {
-        row4.forEach(box => { currColorArr[box] = '' })
+        row4.forEach(box => { currColorArr[box] = Blank })
         return true
       }
     }
@@ -165,7 +173,7 @@ const App = () => {
       const isTopBox = topBox.includes(i)
 
       // if topbox is blank
-      if (isTopBox && currColorArr[i] === '') {
+      if (isTopBox && currColorArr[i] === Blank) {
         // fillin blank box with random color
         const randomNum = Math.floor(Math.random() * candyColors.length)
         currColorArr[i] = candyColors[randomNum]
@@ -174,13 +182,13 @@ const App = () => {
 
       // if the box below is empty
       // then move it down to the blank box
-      if ((currColorArr[i + width]) === '') {
+      if ((currColorArr[i + width]) === Blank) {
         // replace blank box with colored box above it
         // move blank up
         currColorArr[i + width] = currColorArr[i]
         // replace the colored box with blank box below it
         // move color down
-        currColorArr[i] = ''
+        currColorArr[i] = Blank
       }
     }
   }
@@ -206,9 +214,9 @@ const App = () => {
 
     // replace the box color
     // replaceBox with draggedBox
-    currColorArr[boxBeingReplacedId] = boxBeingDragged.style.backgroundColor
+    currColorArr[boxBeingReplacedId] = boxBeingDragged.getAttribute('src')
     // draggedBox with replaceBox
-    currColorArr[boxBeingDraggedId] = boxBeingReplaced.style.backgroundColor
+    currColorArr[boxBeingDraggedId] = boxBeingReplaced.getAttribute('src')
 
     // valid box moves
     // return number
@@ -241,8 +249,8 @@ const App = () => {
       setBoxBeingReplaced(null)
       console.log('POINT')
     } else {
-      currColorArr[boxBeingReplacedId] = boxBeingReplaced.style.backgroundColor
-      currColorArr[boxBeingDraggedId] = boxBeingDragged.style.backgroundColor
+      currColorArr[boxBeingReplacedId] = boxBeingReplaced.getAttribute('src')
+      currColorArr[boxBeingDraggedId] = boxBeingDragged.getAttribute('src')
       setCurrColorArr([...currColorArr])
       console.log("NOT POINT")
     }
@@ -305,16 +313,16 @@ const App = () => {
 
           <img
             key={index}
+            src={candyColor}
             data-id={index}
-            style={{ backgroundColor: candyColor }}
             alt={candyColor}
             draggable={true}
             onDragStart={dragStart}
+            onDrop={dragDrop}
+            onDragEnd={dragEnd}
             onDragOver={(e) => e.preventDefault()}
             onDragEnter={(e) => e.preventDefault()}
             onDragLeave={(e) => e.preventDefault()}
-            onDrop={dragDrop}
-            onDragEnd={dragEnd}
           />
 
         ))}
