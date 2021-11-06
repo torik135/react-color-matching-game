@@ -1,5 +1,8 @@
 import { useState, useEffect } from 'react'
 
+// components
+import ScoreBoard from './components/ScoreBoard'
+
 // images
 import Blue from './img/blue.png'
 import Green from './img/green.png'
@@ -27,6 +30,8 @@ const App = () => {
   const [boxBeingDragged, setBoxBeingDragged] = useState(null)
   const [boxBeingReplaced, setBoxBeingReplaced] = useState()
 
+  const [scoreDisplay, setScoreDisplay] = useState(0)
+
   // checking of column 4 and 3
   const checkColumn3 = () => {
     // 47 = index of the column of 3 that get check
@@ -42,10 +47,14 @@ const App = () => {
       // getting the first value of the column
       const decidedColor = currColorArr[i]
 
+      // check if the box is blank
+      const isBlank = currColorArr[i] === Blank
+
       // match checking
       // if every box if match with decidedColor(first color) then
       // replace it with blank box
-      if (column3.every(box => currColorArr[box] === decidedColor)) {
+      if (column3.every(box => currColorArr[box] === decidedColor && !isBlank)) {
+        setScoreDisplay((score) => score + 3)
         column3.forEach(box => { currColorArr[box] = Blank })
         return true
       }
@@ -66,10 +75,14 @@ const App = () => {
       // getting the first value of the column
       const decidedColor = currColorArr[i]
 
+      // check if the box is blank
+      const isBlank = currColorArr[i] === Blank
+
       // match checking
       // if every box if match with decidedColor(first color) then
       // replace it with blank box
-      if (column4.every(box => currColorArr[box] === decidedColor)) {
+      if (column4.every(box => currColorArr[box] === decidedColor && !isBlank)) {
+        setScoreDisplay((score) => score + 4)
         column4.forEach(box => { currColorArr[box] = Blank })
         return true
       }
@@ -91,6 +104,9 @@ const App = () => {
       // getting the first value of the column
       const decidedColor = currColorArr[i]
 
+      // check if the box is blank
+      const isBlank = currColorArr[i] === Blank
+
       // no valid box / index
       // this box / index will not be check because is 2 not 3 anymore
       const notValidBox = [
@@ -111,7 +127,8 @@ const App = () => {
       // match checking
       // if every box if match with decidedColor(first color) then
       // replace it with blank box
-      if (row4.every(box => currColorArr[box] === decidedColor)) {
+      if (row4.every(box => currColorArr[box] === decidedColor && !isBlank)) {
+        setScoreDisplay((score) => score + 3)
         row4.forEach(box => { currColorArr[box] = Blank })
         return true
       }
@@ -133,6 +150,9 @@ const App = () => {
       // getting the first value of the column
       const decidedColor = currColorArr[i]
 
+      // check if the box is blank
+      const isBlank = currColorArr[i] === Blank
+
       // no valid box / index
       // this box / index will not be check because is 3 not 4 anymore
       const notValidBox = [
@@ -153,7 +173,8 @@ const App = () => {
       // match checking
       // if every box if match with decidedColor(first color) then
       // replace it with blank box
-      if (row4.every(box => currColorArr[box] === decidedColor)) {
+      if (row4.every(box => currColorArr[box] === decidedColor && !isBlank)) {
+        setScoreDisplay((score) => score + 4)
         row4.forEach(box => { currColorArr[box] = Blank })
         return true
       }
@@ -193,18 +214,20 @@ const App = () => {
     }
   }
 
+  console.log(scoreDisplay)
+
   const dragStart = (e) => {
-    console.log('dragStart', e.target)
+    // console.log('dragStart', e.target)
     // get the data of the box being dragged
     setBoxBeingDragged(e.target)
   }
   const dragDrop = (e) => {
-    console.log('dragDrop', e.target)
+    // console.log('dragDrop', e.target)
     // get the data of the box being replaced
     setBoxBeingReplaced(e.target)
   }
   const dragEnd = (e) => {
-    console.log('dragEnd', e.target)
+    // console.log('dragEnd', e.target)
 
 
     // get the data-id (int) of the box being replace on drag end
@@ -305,6 +328,9 @@ const App = () => {
 
   return (
     <div className="app">
+      <h2>Score:</h2><br />
+      <ScoreBoard score={scoreDisplay} />
+      <hr />
       <div className="game">
         {/* mapping the current color arrangement array to img tag
       candyColor = value
