@@ -6,4 +6,4 @@
 - components [reactjs]
 - basic js
 
-## LIVE:
+## LIVE: https://this-color-matching-game.netlify.app/
